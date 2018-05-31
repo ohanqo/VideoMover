@@ -1,7 +1,9 @@
+require 'fileutils'
+
 EXT__FILES = [".avi", ".mkv", ".mp4"]
-PATH__MOVIE = "/Users/antoine/Desktop/test/MOVIES"
-PATH__TVSHOW = "/Users/antoine/Desktop/test/TVSHOWS"
-DIR__DOWNLOAD = "/Users/antoine/Desktop/test/FILES"
+PATH__MOVIE = "/volume1/MOVIES"
+PATH__TVSHOW = "/volume1/TVSHOWS"
+DIR__DOWNLOAD = "/volume1/FILES/DOWNLOAD"
 
 REG__TVSHOW = /\.S[0-9]{2}E[0-9]{2}\./
 REG__MOVIE = /[0-9]{4}\./
@@ -61,12 +63,12 @@ Dir.glob(DIR__DOWNLOAD + "/**/*") do |absolutePath|
 
       destinationPathWithFormattedFileName = destinationPath + "/" + episodeName
 
-      File.rename absolutePath, destinationPathWithFormattedFileName
+      FileUtils.mv absolutePath, destinationPathWithFormattedFileName
       logfile.puts "Déplacement du fichier  ->  " + absolutePath + " vers " + destinationPathWithFormattedFileName
 
     elsif regMovie != nil
 
-      logfile.puts("Type -> Film")
+      logfile.puts "Type -> Film"
 
       delimiter = absolutePath.scan(REG__MOVIE).last
       regOtherThanMovieName = Regexp.new (delimiter.to_s + "*")
@@ -80,7 +82,7 @@ Dir.glob(DIR__DOWNLOAD + "/**/*") do |absolutePath|
       end
 
       if !File.exist?(destinationPath)
-        File.rename absolutePath, destinationPath
+        FileUtils.mv absolutePath, destinationPath
         logfile.puts "Déplacement du fichier  ->  " + absolutePath + " vers " + destinationPath
       end
 
