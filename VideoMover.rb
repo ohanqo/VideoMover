@@ -8,6 +8,7 @@ DIR__DOWNLOAD = "/volume1/FILES/DOWNLOAD"
 REG__TVSHOW = /\.S[0-9]{2}E[0-9]{2}\./
 REG__MOVIE = /[0-9]{4}\./
 REG__FILENAME = /^(.+\/)*(.+)$/
+REG__SQUAREBRACKETS = /\[(.*?)\]/
 LOGFILE__NAME = "LOGFILE"
 
 # LOGFILE
@@ -59,6 +60,10 @@ Dir.glob(DIR__DOWNLOAD + "/**/*") do |absolutePath|
 
         episodeName = formattedFileName + " " + seasonWithEpisode + fileExtension
 
+      end
+
+      if episodeName.include? "["
+        episodeName = episodeName.sub(REG__SQUAREBRACKETS, "").lstrip
       end
 
       destinationPathWithFormattedFileName = destinationPath + "/" + episodeName
