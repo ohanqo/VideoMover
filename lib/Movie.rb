@@ -7,8 +7,12 @@ class Movie
     @name = name
     @extension = extension
   end
+
+  def rename_movie
+    format_name + @extension
+  end
   
-  def format_name
+  private def format_name
     @name.chomp(@name[@@REGEX_OVERFLOW])
          .sub(@@REGEX_BRACKETS, "")
          .tr(".", " ")
